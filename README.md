@@ -1,4 +1,4 @@
-# thesis-arm
+# bthesis-tennisball
 <b> ARM based SemiAutonomous Tennis Balls collector </b>
 <br />
 This robot was part of my B.Tech thesis. <br />
@@ -9,38 +9,32 @@ Some technologies used are listed below. <br />
 For robot: <br />
 + OpenCV imaging library <br />
 + Linux-based embedded system in an ARM microcontroller <br />
-+ Contrast Limited Adaptive Histogram Equalization - CLAHE  <br />
-<br />
++ Contrast Limited Adaptive Histogram Equalization - CLAHE  <br /><br />
+
 For the controller: <br />
 + Web based development <br />
 + Websockets via websockify <br />
-<br />
-<br />
+<br /><br />
 <b> Build Application </b>
-<br />
 <br />
 Before build the tennisball_application, please check the dependencies in the Makefile.
 <br />
 You will need to setup some specific dependencies such as:
 <br />
-+ OpenCV library <br />
-+ v4l2 <br />
-+ pthread </br>
+<br />
+- OpenCV library <br />
+- v4l2 <br />
+- pthread </br>
 <br />
 With the dependencies installed, run the command "make install" inside the root of "tennisball_application" folder. 
 <br />
 If you installed the dependencies correctly, you'll find the application binary inside "bin" folder.
 <br />
-<br />
 <b> System Setup </b>
-<br />
 <br />
 To run the application correctly, you must setup websockify, the Python server and configure the rc.local file in your Linux embedded system.
 <br />
-<br />
-<br />
 <b> Http Controller </b>
-<br />
 <br />
 The tennisball_application received commands from a html controller through the use of the websockets technology. 
 <br />
