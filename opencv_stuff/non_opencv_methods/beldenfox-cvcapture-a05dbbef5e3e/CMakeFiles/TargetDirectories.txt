@@ -1,0 +1,1 @@
+/home/ubuntu/workspace/non_opencv_methods/beldenfox-cvcapture-a05dbbef5e3e/CMakeFiles/camera.dir

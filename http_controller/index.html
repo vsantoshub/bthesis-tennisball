@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>controle</title>
+    <link href="style.css" rel="stylesheet" />
+
+</head>
+<script type="text/javascript">
+
+  var sock;
+  var output = document.getElementById("output");;
+  var ws_app = "ws://192.168.25.48:9001";
+  var ws_shut = "ws://192.168.25.48:10601";
+
+
+function log_print(message) {
+    document.getElementById("output").innerHTML=message.toUpperCase();
+}
+
+window.onload = function() {
+    websocket_application(); //websocket to communicate with C process
+    websocket_shutdown(); //websocket to shutdown correctly the system
+}
+
+
+function websocket_shutdown()
+{
+    if ("WebSocket" in window)
+    {
+        //alert("WebSocket is supported by your Browser!");
+        sock_shut = new WebSocket(ws_shut, ['binary'], ['base64']);
+        // When the sock is open, send some data to the server
+        sock_shut.onopen = function () {
+            log_print("websocket shutdown connected");
+            //sock.send('hello-debug'); // Send the message 'Ping' to the server
+        };
+
+        // Log errors
+        sock_shut.onerror = function (error) {
+            log_print(error);
+            console.log('WebSocket Shut Error ' + error);
+        };
+
+        // Log messages from the server
+        sock_shut.onmessage = function (e) {
+            log_print(e);
+            console.log('Shut Server: ' + e.data);
+        };
+        //reconnect on drop
+        sock_shut.onclose = function () {
+            websocket_shutdown();
+        }
+    }
+    else
+    {
+        // The browser doesn't support WebSocket
+        alert("WebSocket NOT supported by your Browser!");
+    }
+
+}
+
+
+function websocket_application()
+{
+    if ("WebSocket" in window)
+    {
+        //alert("WebSocket is supported by your Browser!");
+        sock_app = new WebSocket(ws_app, ['binary'], ['base64']);
+        // When the sock is open, send some data to the server
+        sock_app.onopen = function () {
+            log_print("websocket app connected");
+            //sock.send('hello-debug'); // Send the message 'Ping' to the server
+        };
+
+        // Log errors
+        sock_app.onerror = function (error) {
+            log_print(error);
+            console.log('WebSocket App Error ' + error);
+        };
+
+        // Log messages from the server
+        sock_app.onmessage = function (e) {
+            log_print(e);
+            console.log('App Server: ' + e.data);
+        };
+        //reconnect on drop
+        sock_app.onclose = function () {
+            websocket_application();
+        }
+    }
+    else
+    {
+        // The browser doesn't support WebSocket
+        alert("WebSocket NOT supported by your Browser!");
+    }
+
+}
+
+function ctl_send(msg) {
+        log_print('CMD SENT: '+msg+'');
+        sock_app.send(msg);
+    }
+
+function shut_send(msg) {
+        log_print('CMD SENT: '+msg+'');
+        sock_shut.send(msg);
+    }    
+
+       </script>
+       <body class="body">
+        <div class="frame-box">
+            <div class="pic-frame" >
+                <iframe src="imgCam.html" height="300" width="400"></iframe>
+            </div>
+        </div>
+        <div class="controle"> 
+            <button id="bcollec" class="u1 button button-gray buttons-misc" onclick="ctl_send('$OPENCVOFF')">NO-AUTO</button>
+            <button id="bup" class="u1 button button-gray" onclick="ctl_send('$MOVEUP')">&#x2191;</button>
+            <button id="blank2" class="u1 button button-gray buttons-misc" onclick="ctl_send('$COLTOGGLE')">COLETOR</button>
+            <button id="buleft" class="u1 button button-gray" onclick="ctl_send('$MOVELEFT')">&#x2190;</button>
+            <button id="bstop" class="u1 button button-gray buttons-misc" onclick="ctl_send('$STOP')">STOP</button>
+            <button id="bright" class="u1 button button-gray" onclick="ctl_send('$MOVERIGHT')">&#x2192;</button>
+            <button id="blank4" class="u1 button button-gray buttons-misc" onclick="ctl_send('$OPENCVON')">AUTO</button>
+            <button id="bdown" class="u1 button button-gray" onclick="ctl_send('$MOVEDOWN')">&#x2193;</button>
+            <button id="quit" class="u1 button button-blue" onclick="shut_send('$KILL_ME')">Q</button>            
+        </div>
+        <div class="info" id="output"> 
+            </div>
+    </body>
+    </html>

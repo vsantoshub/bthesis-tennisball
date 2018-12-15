@@ -1,0 +1,97 @@
+Patch aplicado no source do OpenCV 2.4.9
+Arquivo de backup original esta no raiz ~/.bkp_cv
+    From c86add1abed85400b0e52cdcbb9b5de8a8a6307a Mon Sep 17 00:00:00 2001
+    From: Dave Stevenson <dsteve@broadcom.com>
+    Date: Thu, 3 Apr 2014 11:42:01 +0000
+    Subject: [PATCH] Add support for V4L2_PIXEL_FORMAT_YUV420
+
+    Handling is almost identical as for YVU420, but the
+    computation of the pointer pU and pV is modified in
+    yuv420p_to_rgb24
+    ---
+     modules/highgui/src/cap_v4l.cpp |   36 +++++++++++++++++++++++++++++++-----
+     1 file changed, 31 insertions(+), 5 deletions(-)
+
+    diff --git a/modules/highgui/src/cap_v4l.cpp b/modules/highgui/src/cap_v4l.cpp
+    index c9fca05..9053c79 100644
+    --- a/modules/highgui/src/cap_v4l.cpp
+    +++ b/modules/highgui/src/cap_v4l.cpp
+    @@ -288,6 +288,7 @@ static unsigned int n_buffers = 0;
+     enum PALETTE_TYPE {
+       PALETTE_BGR24 = 1,
+       PALETTE_YVU420,
+    +  PALETTE_YUV420,
+       PALETTE_YUV411P,
+       PALETTE_YUYV,
+       PALETTE_UYVY,
+    @@ -551,6 +552,10 @@ static int autosetup_capture_mode_v4l2(CvCaptureCAM_V4L* capture)
+       {
+         capture->palette = PALETTE_YVU420;
+       }
+    +  if (try_palette_v4l2(capture, V4L2_PIX_FMT_YUV420) == 0)
+    +  {
+    +    capture->palette = PALETTE_YUV420;
+    +  }
+       else
+       if (try_palette_v4l2(capture, V4L2_PIX_FMT_YUV411P) == 0)
+       {
+    @@ -1496,15 +1501,26 @@ move_411_block(int yTL, int yTR, int yBL, int yBR, int u, int v,
+     /* Converts from planar YUV420P to RGB24. */
+     static void
+     yuv420p_to_rgb24(int width, int height,
+    -           unsigned char *pIn0, unsigned char *pOut0)
+    +           unsigned char *pIn0, unsigned char *pOut0,
+    +           bool is_yuv)
+     {
+         const int numpix = width * height;
+         const int bytes = 24 >> 3;
+         int i, j, y00, y01, y10, y11, u, v;
+         unsigned char *pY = pIn0;
+    -    unsigned char *pU = pY + numpix;
+    -    unsigned char *pV = pU + numpix / 4;
+    +    unsigned char *pU;
+    +    unsigned char *pV;
+         unsigned char *pOut = pOut0;
+    +    if (is_yuv)
+    +    {
+    +        pU = pY + numpix;
+    +        pV = pU + numpix / 4;
+    +    }
+    +    else
+    +    {
+    +        pV = pY + numpix;
+    +        pU = pV + numpix / 4;
+    +    }
+     
+         for (j = 0; j <= height - 2; j += 2) {
+             for (i = 0; i <= width - 2; i += 2) {
+    @@ -2160,7 +2176,16 @@ static IplImage* icvRetrieveFrameCAM_V4L( CvCaptureCAM_V4L* capture, int) {
+             yuv420p_to_rgb24(capture->form.fmt.pix.width,
+                      capture->form.fmt.pix.height,
+                      (unsigned char*)(capture->buffers[capture->bufferIndex].start),
+    -                 (unsigned char*)capture->frame.imageData);
+    +                 (unsigned char*)capture->frame.imageData,
+    +                 false);
+    +        break;
+    +
+    +    case PALETTE_YUV420:
+    +        yuv420p_to_rgb24(capture->form.fmt.pix.width,
+    +                 capture->form.fmt.pix.height,
+    +                 (unsigned char*)(capture->buffers[capture->bufferIndex].start),
+    +                 (unsigned char*)capture->frame.imageData,
+    +                 true);
+             break;
+     
+         case PALETTE_YUV411P:
+    @@ -2239,7 +2264,8 @@ static IplImage* icvRetrieveFrameCAM_V4L( CvCaptureCAM_V4L* capture, int) {
+             yuv420p_to_rgb24(capture->captureWindow.width,
+                  capture->captureWindow.height,
+                  (unsigned char*)(capture->memoryMap + capture->memoryBuffer.offsets[capture->bufferIndex]),
+    -             (unsigned char*)capture->frame.imageData);
+    +             (unsigned char*)capture->frame.imageData,
+    +             true);
+             break;
+         case VIDEO_PALETTE_YUV420:
+             yuv420_to_rgb24(capture->captureWindow.width,
+    -- 
+    1.7.10.4

@@ -1,0 +1,32 @@
+Making and running the package
+------------------------------
+
+1. Add the directory where this ROS package is located to /opt/ros/cturtle/setup.sh
+
+2. Edit the stereocam.launch file to your desired settings
+
+3. rosmake --rosdep-install stereocam
+
+4. roslaunch stereocam.launch
+
+5. A new topic called stereo/point_cloud should appear
+   rostopic list
+
+6. An example subscriber:
+
+     roslaunch stereocam_subscribe.launch
+
+
+A note about efficiency
+-----------------------
+
+The current implementation saves point cloud data to file, then re-loads it and broadcasts it.  This is not a very efficient way of doing things, and may thrash the hard disk somewhat.  A slightly better workaround would be to create a RAM disk, and save the point cloud data there.  
+
+For example:
+
+  su
+  mkdir /tmp/ramdisk
+  chmod 777 /tmp/ramdisk
+  mount -t tmpfs -o size=256M tmpfs /tmp/ramdisk/
+
+then edit sterecam.launch and set the outputdirectory parameter to "/tmp/ramdisk/"

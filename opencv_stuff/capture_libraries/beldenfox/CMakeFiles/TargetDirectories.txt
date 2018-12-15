@@ -1,0 +1,1 @@
+/home/ubuntu/workspace/tcc/capture_libraries/beldenfox/CMakeFiles/camera.dir

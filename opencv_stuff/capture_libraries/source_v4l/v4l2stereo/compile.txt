@@ -1,0 +1,1 @@
+g++ -O3 -o -Wall v4l2stereo *.cpp calibration/*.cpp -I/usr/include/opencv -Icalibration -L/usr/lib -lcv -lcxcore -lcvaux -lhighgui -fopenmp

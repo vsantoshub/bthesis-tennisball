@@ -1,0 +1,11 @@
+string left_device
+string right_device
+int32 width
+int32 height
+int32 fps
+float32 baseline_mm
+float32 focal_length_pixels
+bool flip_left
+bool flip_right
+---
+int32 ack

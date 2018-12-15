@@ -1,0 +1,17 @@
+<package>
+  <description brief="stereocam">
+
+     ROS package for broadcasting point cloud data from stereo webcams such as the Minoru
+
+  </description>
+  <author>Bob Mottram</author>
+  <license>GPL</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://code.google.com/p/sentience/wiki/MinoruWebcam</url>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="sensor_msgs"/>
+
+</package>
+
+

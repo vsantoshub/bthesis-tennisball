@@ -1,0 +1,46 @@
+#!/bin/bash 
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+
+depmod -a
+modprobe i2c-dev
+modprobe pwm
+modprobe adc
+modprobe gpio
+modprobe sw_interrupt
+# Disable screen blanking:
+echo 0 > /sys/class/graphics/fb0/blank
+
+echo 0 > /sys/module/8192cu/parameters/rtw_power_mgnt
+
+sleep 12 && /usr/bin/set_window.sh &
+#add for running factory test code
+sleep 10 && /usr/bin/enable_otg.sh &
+/usr/bin/check_factory.sh &
+
+#for ethernet over usb support
+dhcpd
+#python script to turn GPIO low at boot 
+#2016, modified in fex file (sdcard boot folder)
+#/usr/bin/python /home/ubuntu/workspace/tcc/gpio/gpio_low.py > /tmp/python_gpio.log 1>&2   
+
+#websockify proxy Python
+/home/ubuntu/websocket/websockify/run 10601 localhost:10600 > /tmp/websocket_py.log 1>&2 &
+
+#python tcp server to turn off the application in the right way 
+sudo /usr/bin/python /home/ubuntu/workspace/tcc/python_server/tcp_server.py > /tmp/pythonserver.log 1>&2 &  
+
+#websockify proxy C
+/home/ubuntu/websocket/websockify/run 9001 localhost:9000 > /tmp/websocket_c.log 1>&2 &
+
+#c++ image processing application 
+sudo /home/ubuntu/workspace/tcc/thr_tennisBall/application > /tmp/app.log 2>&1 &
+
+exit 0
