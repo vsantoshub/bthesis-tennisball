@@ -2,22 +2,23 @@
 <b> ARM based SemiAutonomous Tennis Balls collector </b>
 <br />
 This robot was part of my B.Tech thesis. <br />
-The project purpose is to use an OpenCV-based  machine-vision to collect the balls in a tennis court. <br />
+The project's purpose is to collect the balls in a tennis court using a machine-vision system. <br />
 <br />
 Some technologies used are listed below. <br />
 <br />
-For robot: <br />
-+ OpenCV imaging library <br />
-+ Linux-based embedded system in an ARM microcontroller <br />
-+ Contrast Limited Adaptive Histogram Equalization - CLAHE  <br /><br />
+For robot/vision system: <br />
++ OpenCV computer-vision library <br />
++ Embedded Linux system in an ARM microcontroller <br />
++ Contrast Limited Adaptive Histogram Equalization - CLAHE  <br />
++ Multi-threaded TCP server written in C language <br />
++ Simple Python TCP server to kill the machine-vision application and shutdown the system correctly.<br /> <br />
 
 For the controller: <br />
-+ Web based development <br />
-+ Websockets via websockify <br />
++ Simple HTML/CSS interface <br />
++ Communication through Websockets via websockify <br />
 <br /><br />
-<ul>
-<b> Build Application </b>
-</ul>
+
+<b>Build Application </b>
 <br />
 Before build the tennisball_application, please check the dependencies in the Makefile.
 <br />
