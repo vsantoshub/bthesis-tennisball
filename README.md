@@ -15,7 +15,9 @@ For the controller: <br />
 + Web based development <br />
 + Websockets via websockify <br />
 <br /><br />
+<ul>
 <b> Build Application </b>
+</ul>
 <br />
 Before build the tennisball_application, please check the dependencies in the Makefile.
 <br />
@@ -29,11 +31,11 @@ You will need to setup some specific dependencies such as:
 With the dependencies installed, run the command "make install" inside the root of "tennisball_application" folder. 
 <br />
 If you installed the dependencies correctly, you'll find the application binary inside "bin" folder.
-<br />
+<br /><br />
 <b> System Setup </b>
 <br />
 To run the application correctly, you must setup websockify, the Python server and configure the rc.local file in your Linux embedded system.
-<br />
+<br /><br />
 <b> Http Controller </b>
 <br />
 The tennisball_application received commands from a html controller through the use of the websockets technology. 
