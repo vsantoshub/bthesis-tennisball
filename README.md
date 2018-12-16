@@ -12,14 +12,13 @@ For robot/vision system: <br />
 + Contrast Limited Adaptive Histogram Equalization - CLAHE  <br />
 + Multi-threaded TCP server written in C language <br />
 + Simple Python TCP server to kill the machine-vision application and shutdown the system correctly.<br /> <br />
-
 For the controller: <br />
 + Simple HTML/CSS interface <br />
 + Communication through Websockets via websockify <br />
 <br /><br />
 <b>Project structure </b>
 <br />
-![Project Structure](docs/btech-tennisball-diagram.jpg)
+![Project Structure](https://github.com/vsantoshub/bthesis-tennisball/blob/master/docs/btech-tennisball-diagram.png)
 <br />
 <b>Build Application </b>
 <br />
