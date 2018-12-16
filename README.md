@@ -17,7 +17,10 @@ For the controller: <br />
 + Simple HTML/CSS interface <br />
 + Communication through Websockets via websockify <br />
 <br /><br />
-
+<b>Project structure </b>
+<br />
+![Project Structure](docs/btech-tennisball-diagram.jpg)
+<br />
 <b>Build Application </b>
 <br />
 Before build the tennisball_application, please check the dependencies in the Makefile.
