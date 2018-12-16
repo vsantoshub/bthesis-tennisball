@@ -14,11 +14,13 @@ For robot/vision system: <br />
 + Simple Python TCP server to kill the machine-vision application and shutdown the system correctly.<br /> <br />
 For the controller: <br />
 + Simple HTML/CSS interface <br />
-+ Communication through Websockets via websockify <br />
-<br /><br />
++ Communication through Websockets via websockify <br /><br />
+<br />
 <b>Project structure </b>
 <br />
-![Project Structure](https://github.com/vsantoshub/bthesis-tennisball/blob/master/docs/btech-tennisball-diagram.png)
+<p align="center">
+<img src="https://raw.githubusercontent.com/vsantoshub/bthesis-tennisball/master/docs/btech-tennisball-diagram.jpg" width="640" title="hover text">
+</p>
 <br />
 <b>Build Application </b>
 <br />
